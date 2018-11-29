@@ -6,11 +6,10 @@ from .models import Greeting
 
 # Create your views here.
 def index(request):
-    r = requests.get('http://httpbin.org/status/418')
-    print(request.method + " hey " + request.body)
-    return HttpResponse('<pre>' + r.text + '</pre>' + "index")
-    # return HttpResponse('Hello from Python!')
-    # return render(request, "index.html")
+    if(request.method == GET)
+        indexGET
+    else
+        processPOST
 
 
 def db(request):
@@ -28,6 +27,21 @@ def df(request):
     return HttpResponse('<pre>' + r.text + '</pre>'  + "df")
 # return HttpResponse('Hello from Python!')
 # return render(request, "index.html")
+
+def processPOST(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(request.method + " post " + request.POST)
+    return HttpResponse('<pre>' + r.text + '</pre>' + "post")
+# return HttpResponse('Hello from Python!')
+# return render(request, "index.html")
+
+def indexGET(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(request.method + " get")
+    return HttpResponse('<pre>' + r.text + '</pre>' + "get")
+# return HttpResponse('Hello from Python!')
+# return render(request, "index.html")
+
 
 req = requests.Request('POST','http://stackoverflow.com',headers={'X-Custom':'Test'},data='a=1&b=2')
 prepared = req.prepare()
