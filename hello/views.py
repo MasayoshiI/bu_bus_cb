@@ -13,9 +13,7 @@ testJSON = {
     "fulfillmentText": "This is a text response",
     "fulfillmentMessages": [
         {
-            "text": [
-                "you are great!"
-            ]
+            "text": "you are great!"
         }
     ],
 }
