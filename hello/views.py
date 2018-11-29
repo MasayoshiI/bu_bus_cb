@@ -13,8 +13,8 @@ testJSON = {
     "speech":"response",
     "displayText":"you're great! displayText",
     "messages": {
-        "speech": "you're great! speech"
-        "type": 0,
+        "speech": "you're great! speech",
+        "type": 0
     },
 }
 
