@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 #geting and sending response to dialogflow
 #@app.route('/webhook', methods=['POST'])
-@app.route('/index', methods=['GET'])
+@app.route('/', methods=['GET'])
 def webhook():
     req = request.get_json(silent=True, force=True)
     
