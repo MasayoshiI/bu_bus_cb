@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 #geting and sending response to dialogflow
 #@app.route('/webhook', methods=['POST'])
-@app.route('/get', methods=['GET'])
+@app.route('/', methods=['GET'])
 def index(request):
     r = requests.get('http://httpbin.org/status/418')
     print(r.text)
