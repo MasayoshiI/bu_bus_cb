@@ -20,7 +20,7 @@ def index(request):
     # return HttpResponse('Hello from Python!')
     # return render(request, "index.html")
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def dothis():
     r = requests.get('http://httpbin.org/status/418')
     print(r.text)
