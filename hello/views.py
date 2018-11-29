@@ -7,9 +7,9 @@ from .models import Greeting
 # Create your views here.
 def index(request):
     if(request.method == "GET"):
-        indexGET(request)
+        return indexGET(request)
     else:
-        processPOST(request)
+        return processPOST(request)
 
 
 def db(request):
