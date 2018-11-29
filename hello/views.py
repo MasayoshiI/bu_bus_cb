@@ -6,10 +6,10 @@ from .models import Greeting
 
 # Create your views here.
 def index(request):
-    if(request.method == GET)
-        indexGET
-    else
-        processPOST
+    if(request.method == GET):
+        indexGET(request)
+    else:
+        processPOST(request)
 
 
 def db(request):
