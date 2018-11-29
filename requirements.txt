@@ -2,3 +2,7 @@ django
 gunicorn
 django-heroku
 requests
+flask
+os
+json
+pyown
