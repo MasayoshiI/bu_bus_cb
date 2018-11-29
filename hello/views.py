@@ -34,8 +34,8 @@ def df(request):
 def processPOST(request):
     r = requests.get('http://httpbin.org/status/418')
     print(request.method + " post ")
-    for key,val in request.POST.dict():
-        print (key, "=>", val)
+    for list in request.POST.lists():
+        print list
     print(request.method + " done printing")
     return HttpResponse('<pre>' + r.text + '</pre>' + "post")
 # return HttpResponse('Hello from Python!')
