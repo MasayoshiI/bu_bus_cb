@@ -12,6 +12,23 @@ app = Flask(__name__)
 
 #geting and sending response to dialogflow
 #@app.route('/webhook', methods=['POST'])
+@app.route('/')
+def index(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>' + "hit")
+# return HttpResponse('Hello from Python!')
+# return render(request, "index.html")
+
+def db(request):
+    
+    greeting = Greeting()
+    greeting.save()
+    
+    greetings = Greeting.objects.all()
+    
+    return render(request, "db.html", {"greetings": greetings})
+
 
 def index(request):
     r = requests.get('http://httpbin.org/status/418')
@@ -20,22 +37,7 @@ def index(request):
     # return HttpResponse('Hello from Python!')
     # return render(request, "index.html")
 
-@app.route('/')
-def index(request):
-    r = requests.get('http://httpbin.org/status/418')
-    print(r.text)
-    return HttpResponse('<pre>' + r.text + '</pre>' + "hit")
-    # return HttpResponse('Hello from Python!')
-    # return render(request, "index.html")
 
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, "db.html", {"greetings": greetings})
 
 @app.route('/getthis')
 def dothis(request):
