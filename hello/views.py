@@ -21,7 +21,7 @@ def index(request):
     # return render(request, "index.html")
 
 @app.route('/')
-def dothis(request):
+def index(request):
     r = requests.get('http://httpbin.org/status/418')
     print(r.text)
     return HttpResponse('<pre>' + r.text + '</pre>' + "hit")
@@ -37,6 +37,13 @@ def db(request):
 
     return render(request, "db.html", {"greetings": greetings})
 
+@app.route('/getthis')
+def dothis(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>' + "hit2")
+# return HttpResponse('Hello from Python!')
+# return render(request, "index.html")
 
 def webhook():
     req = request.get_json(silent=True, force=True)
