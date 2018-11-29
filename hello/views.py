@@ -36,6 +36,7 @@ def processPOST(request):
     print(request.method + " post ")
     for key,val in request.POST:
         print (key, "=>", val)
+    print(request.method + " done printing")
     return HttpResponse('<pre>' + r.text + '</pre>' + "post")
 # return HttpResponse('Hello from Python!')
 # return render(request, "index.html")
