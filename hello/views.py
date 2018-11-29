@@ -7,7 +7,7 @@ from .models import Greeting
 # Create your views here.
 def index(request):
     r = requests.get('http://httpbin.org/status/418')
-    print(request.headers + " hey" )
+    print(request.method + " hey" )
     return HttpResponse('<pre>' + r.text + '</pre>' + "index")
     # return HttpResponse('Hello from Python!')
     # return render(request, "index.html")
