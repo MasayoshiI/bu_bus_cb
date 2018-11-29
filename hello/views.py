@@ -50,7 +50,7 @@ def processPOST(request):
     print(body)
     json_response = json.dumps(testJSON)
     print(request.method + " done printing")
-    return json_response
+    return HttpResponse(json_response, content_type='application/json')
 #return HttpResponse('<pre>' + r.text + '</pre>' + "post")
 # return HttpResponse('Hello from Python!')
 # return render(request, "index.html")
