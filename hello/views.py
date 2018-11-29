@@ -12,7 +12,7 @@ from .models import Greeting
 testJSON = {
     "speech":"response",
     "displayText":"you're great! displayText",
-    "messages": {
+    "message": {
         "speech": "you're great! speech",
         "type": 0
     },
