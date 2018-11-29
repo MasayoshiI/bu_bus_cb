@@ -52,7 +52,7 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-processing the request from dialogflow
+#processing the request from dialogflow
 def processRequest(req):
 
     result = req.get("result")
