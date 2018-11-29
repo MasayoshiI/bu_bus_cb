@@ -2,6 +2,9 @@ from flask import Flask,request,make_response
 import os,json
 import pyowm
 import os
+from django.shortcuts import render
+from django.http import HttpResponse
+import requests
 
 app = Flask(__name__)
 owmapikey=os.environ.get('OWMApiKey') #or provide your key here
