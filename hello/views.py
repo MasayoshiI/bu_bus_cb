@@ -10,7 +10,7 @@ from .models import Greeting
 ###### test JSON to return to DialogFlow request
 
 testJSON = {
-    "speech":"response"
+    "speech":"response",
     "displayText":"you're great!"
 }
 
