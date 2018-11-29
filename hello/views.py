@@ -9,6 +9,7 @@ owm = pyowm.OWM(owmapikey)
 
 #geting and sending response to dialogflow
 @app.route('/webhook', methods=['POST'])
+@app.route('/index', methods=['GET'])
 def webhook():
     req = request.get_json(silent=True, force=True)
     
@@ -55,10 +56,22 @@ def processRequest(req):
         "source": "dialogflow-weather-by-satheshrgs"
     }
 
+def index(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>')
+    # return HttpResponse('Hello from Python!')
+    # return render(request, "index.html")
+
+
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     print("Starting app on port %d" % port)
     app.run(debug=False, port=port, host='0.0.0.0')
+
+
+
 #from django.shortcuts import render
 #from django.http import HttpResponse
 #import requests
