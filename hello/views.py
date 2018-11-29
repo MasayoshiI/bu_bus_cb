@@ -11,7 +11,13 @@ from .models import Greeting
 
 testJSON = {
     "speech":"response",
-    "displayText":"you're great!"
+    "displayText":"you're great!",
+    "messages": {
+        "type": 1,
+        "title": "card title",
+        "subtitle": "card text",
+        "imageUrl": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png"
+    },
 }
 
 ###### TESTJSON ENDS
