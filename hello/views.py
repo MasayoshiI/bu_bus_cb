@@ -10,12 +10,22 @@ from .models import Greeting
 ###### test JSON to return to DialogFlow request
 
 testJSON = {
-    "speech":"response",
-    "displayText":"you're great! displayText",
-    "message": {
-        "speech": "you're great! speech",
-        "type": 0
-    },
+    "fulfillmentText": "This is a text response",
+    "fulfillmentMessages": [
+        {
+            "card": {
+            "title": "card title",
+            "subtitle": "card text",
+            "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+            "buttons": [
+                {
+                    "text": "button text",
+                    "postback": "https://assistant.google.com/"
+                }
+            ]
+            }
+        }
+    ],
 }
 
 ###### TESTJSON ENDS
