@@ -122,7 +122,7 @@ def returnJSON(time):
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["next bus to here in " + time]
+                    "text": ["next bus to here in " + str(time)]
                 }
             }
         ],
