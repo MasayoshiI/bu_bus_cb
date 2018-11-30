@@ -4,4 +4,3 @@ django-heroku
 requests
 anyjson
 datetime
-busData.py
