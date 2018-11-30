@@ -4,10 +4,10 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 from busData import get_estimate
-from .models import Greeting
+#from .models import Greeting
 
 
-PYTHONPATH=../ python views.py
+
 
 ###### test JSON to return to DialogFlow request
 estimated_time = "";
@@ -35,12 +35,12 @@ def index(request):
     else:
         return processPOST(request)
 
-#default function for heroku apps, function for /db URL
-def db(request):
-    greeting = Greeting()
-    greeting.save()
-    greetings = Greeting.objects.all()
-    return render(request, "db.html", {"greetings": greetings})
+##default function for heroku apps, function for /db URL
+#def db(request):
+#    greeting = Greeting()
+#    greeting.save()
+#    greetings = Greeting.objects.all()
+#    return render(request, "db.html", {"greetings": greetings})
 
 #test function for /df URL
 def df(request):
