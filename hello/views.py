@@ -51,7 +51,7 @@ def processPOST(request):
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
         dict = get_estimate(bus_stop)
     lowest = 1000
-    if(dict != None)
+    if dict != None:
         for key in dict:
             if (key < lowest):
                 lowest = key
