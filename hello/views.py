@@ -51,9 +51,10 @@ def processPOST(request):
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
         dict = get_estimate(bus_stop)
     lowest = 1000
-    for key in dict:
-        if (key < lowest):
-            lowest = key
+    if(dict != None)
+        for key in dict:
+            if (key < lowest):
+                lowest = key
     global estimated_time
     estimated_time = lowest
     json_response = json.dumps(testJSON)
