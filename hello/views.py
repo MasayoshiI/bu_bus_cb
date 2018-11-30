@@ -60,7 +60,8 @@ def processPOST(request):
     for key in dict:
         if (key < lowest):
             lowest = key
-    global estimated_time = lowest
+    global estimated_time
+    estimated_time = lowest
     json_response = json.dumps(testJSON)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
