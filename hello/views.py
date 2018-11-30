@@ -45,7 +45,7 @@ def processPOST(request):
     r = requests.get('http://httpbin.org/status/418')
     print(request.method + " post ")
     body = json.loads(request.body) #translates
-    print(body)
+    #print(body)
     dict = {}
     if body["queryResult"]["parameters"]["next_bus"] == "next":
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
