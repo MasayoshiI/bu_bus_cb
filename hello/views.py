@@ -4,8 +4,6 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 import datetime
-import pytz
-
 
 
 
@@ -111,7 +109,8 @@ def get_estimate(stop_str):
 
 #helper function for get_estimate; calculates minutes until arrival
 def calculate_time_diff(bus_time):
-    current = datetime.datetime.now(pytz.EST)
+    current = datetime.datetime.now()
+    current = current - timedelta(hours = 5)
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
     print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
