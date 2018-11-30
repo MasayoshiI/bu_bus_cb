@@ -112,6 +112,7 @@ def get_estimate(stop_str):
 def calculate_time_diff(bus_time):
     current = datetime.datetime.now()
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
+    print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
 #    print(current, " bus time", bus_time_obj)
 #    print(bus_time_obj - current)
