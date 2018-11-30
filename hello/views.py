@@ -55,11 +55,9 @@ def processPOST(request):
         for key in dict:
             if (key < lowest):
                 lowest = key
-    global estimated_time
-    estimated_time = lowest
-    print("lowest: ",estimated_time)
-    json_response = json.dumps(testJSON)
-    print("testJSON: ", testJSON)
+    print("lowest: ", lowest)
+    ret = returnJSON(lowest)
+    json_response = json.dumps(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
 
@@ -118,7 +116,16 @@ def calculate_time_diff(bus_time):
 #    print(current, " bus time", bus_time_obj)
 #    print(bus_time_obj - current)
 
-
-read_bus_data()
-get_estimate("danielsen")
+def returnJSON(time):
+    ret = {
+        "fulfillmentText": "This is a text response",
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": ["next bus to here in " + time]
+                }
+            }
+        ],
+    }
+    return ret
 

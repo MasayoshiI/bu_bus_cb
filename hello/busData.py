@@ -54,3 +54,15 @@ def calculate_time_diff(bus_time):
 read_bus_data()
 get_estimate("danielsen")
 
+def returnJSON(time):
+    ret = {
+        "fulfillmentText": "This is a text response",
+        "fulfillmentMessages": [
+            {
+                "text": {
+                    "text": ["next bus to here in " + time]
+                }
+            }
+        ],
+    }
+    return ret
