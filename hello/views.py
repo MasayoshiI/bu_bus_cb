@@ -57,7 +57,9 @@ def processPOST(request):
                 lowest = key
     global estimated_time
     estimated_time = lowest
+    print("lowest: ",estimated_time)
     json_response = json.dumps(testJSON)
+    print("testJSON: ", testJSON)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
 
@@ -105,6 +107,7 @@ def get_estimate(stop_str):
                 if(stops["stop_id"] == stop_id):
                     time_until = calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
+    print("get estimate for ", stop_str, " returned ", ret)
     return ret
 
 #helper function for get_estimate; calculates minutes until arrival
