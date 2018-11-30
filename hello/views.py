@@ -124,7 +124,7 @@ def returnJSON(time, stop):
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["next bus to" + bus_stop + " in " + str(time) + " minutes"]
+                    "text": ["next bus to" + stop + " in " + str(time) + " minutes"]
                 }
             }
         ],
