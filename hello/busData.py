@@ -51,8 +51,8 @@ def calculate_time_diff(bus_time):
 #    print(bus_time_obj - current)
 
 
-read_bus_data()
-get_estimate("danielsen")
+
+get_estimate("silber")
 
 def returnJSON(time):
     ret = {
