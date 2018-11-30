@@ -53,10 +53,9 @@ def processPOST(request):
     body = json.loads(request.body) #translates
     print(body)
     dict = {}
-    if(body["queryResult"]["parameters"]["next_bus"] == "next"){
+    if body["queryResult"]["parameters"]["next_bus"] == "next":
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
         dict = busData.get_estimate(bus_stop)
-    }
     lowest = 1000
     for key in dict:
         if (key < lowest):
