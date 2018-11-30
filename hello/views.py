@@ -3,12 +3,11 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
-import sys
-sys.path.append('../')
 from busData import get_estimate
-
-
 from .models import Greeting
+
+
+PYTHONPATH=../ python views.py
 
 ###### test JSON to return to DialogFlow request
 estimated_time = "";
