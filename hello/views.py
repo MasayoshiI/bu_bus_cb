@@ -105,7 +105,7 @@ def get_estimate(stop_str):
                 if(stops["stop_id"] == stop_id):
                     time_until = calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
-    print(ret)
+    return ret
 
 #helper function for get_estimate; calculates minutes until arrival
 def calculate_time_diff(bus_time):
