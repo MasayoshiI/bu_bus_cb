@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
-import busData.py
+from busData import get_estimate
 
 
 from .models import Greeting

@@ -29,6 +29,7 @@ def read_bus_data():
 
 #takes in bus stop string, returns a dictionary {minutes until next arrival:bus_route}#
 def get_estimate(stop_str):
+    read_bus_data()
     ret = {}
     stop_id = bus_stop_dict[stop_str]
     for bus in data["ResultSet"]["Result"]:
