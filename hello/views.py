@@ -56,7 +56,7 @@ def processPOST(request):
             if (key < lowest):
                 lowest = key
     print("lowest: ", lowest)
-    ret = returnJSON(lowest, bus_stop)
+    ret = returnJSON(lowest, bus_stop, dict[lowest])
     json_response = json.dumps(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
@@ -106,7 +106,7 @@ def get_estimate(stop_str):
                     time_until = calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
     print("get estimate for ", stop_str, " returned ", ret)
-    return ret
+    return round(ret)
 
 #helper function for get_estimate; calculates minutes until arrival
 def calculate_time_diff(bus_time):
@@ -115,16 +115,15 @@ def calculate_time_diff(bus_time):
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
     print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
-#    print(current, " bus time", bus_time_obj)
-#    print(bus_time_obj - current)
 
-def returnJSON(time, stop):
+
+def returnJSON(time, stop, type):
     ret = {
         "fulfillmentText": "This is a text response",
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["next bus to " + stop + " in " + str(time) + " minutes"]
+                    "text": ["next bus to " + stop + " is a " + type + "bus that is arriving in " + str(time) + " minutes"]
                 }
             }
         ],
