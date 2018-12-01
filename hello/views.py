@@ -56,7 +56,7 @@ def processPOST(request):
             if (key < lowest):
                 lowest = key
     print("lowest: ", lowest)
-    ret = returnJSON(lowest, bus_stop, dict[lowest])
+    ret = returnJSON(round(lowest), bus_stop, dict[lowest])
     json_response = json.dumps(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
@@ -106,7 +106,7 @@ def get_estimate(stop_str):
                     time_until = calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
     print("get estimate for ", stop_str, " returned ", ret)
-    return round(ret)
+    return return ret
 
 #helper function for get_estimate; calculates minutes until arrival
 def calculate_time_diff(bus_time):
