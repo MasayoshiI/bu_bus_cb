@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 import datetime
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 
 
@@ -117,6 +118,11 @@ def calculate_time_diff(bus_time):
     print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
 
+
+def privacypolicy(request):
+    path = staticfiles_storage.path('privacypolicy.txt')
+    policy = open(path, "r")
+    return HttpResponse('<pre>' + policy.read() + '</pre>')
 
 def returnJSON(time, stop, type):
     ret = {

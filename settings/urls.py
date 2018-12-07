@@ -17,5 +17,6 @@ import BUsBot.views
 urlpatterns = [
     path("", BUsBot.views.index, name="index"),
     path("df/", BUsBot.views.df, name="df"),
+    path("privacypolicy/", BUsBot.views.privacypolicy, name="privacypolicy"),
     path("admin/", admin.site.urls),
 ]
