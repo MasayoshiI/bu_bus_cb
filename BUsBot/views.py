@@ -28,6 +28,7 @@ testJSON = {
 
 # Create your views here.
 @csrf_exempt #for security clearance, not sure what vulnerabilities it leads to
+#requests to gentle-dawn URL get processed with the method
 def index(request):
     if(request.method == "GET"):
         return processGET(request)
