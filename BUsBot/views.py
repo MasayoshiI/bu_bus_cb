@@ -57,8 +57,11 @@ def processPOST(request):
         for key in dict:
             if (key < lowest):
                 lowest = key
+    if lowest == 1000:
+        ret = returnNoInfo
+    else:
+        ret = returnJSON(round(lowest), bus_stop, dict[lowest])
     print("lowest: ", lowest)
-    ret = returnJSON(round(lowest), bus_stop, dict[lowest])
     json_response = json.dumps(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
@@ -121,8 +124,9 @@ def calculate_time_diff(bus_time):
 
 def privacypolicy(request):
     path = staticfiles_storage.path('privacypolicy.txt')
+    print(path);
     policy = open(path, "r")
-    return HttpResponse('<pre>' + policy.read() + '</pre>')
+    return HttpResponse('<pre>' + policy.read() + path + '</pre>')
 
 def returnJSON(time, stop, type):
     ret = {
@@ -131,6 +135,19 @@ def returnJSON(time, stop, type):
             {
                 "text": {
                     "text": ["next bus to " + stop + " is a " + type + " bus that is arriving in " + str(time) + " minutes"]
+                }
+            }
+        ],
+    }
+    return ret
+
+def returnNoInfo:
+    ret = {
+        "fulfillmentText": "This is a text response",
+        "fulfillmentMessages": [
+            {
+                "text": {
+                                "text": ["Unfortunately I don't have data for that :( please try another stop!"]
                 }
             }
         ],
