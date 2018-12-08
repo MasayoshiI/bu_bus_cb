@@ -50,6 +50,7 @@ def find_next_bus(bus_stop):
                     ret = return_next_bus_JSON(round(lowest), bus_stop, next_bus_DS[lowest])
     else:
         ret = return_no_info_for_stop_JSON()
+    print(lowest)
     return ret
 
 
