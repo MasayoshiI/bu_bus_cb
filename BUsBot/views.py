@@ -7,23 +7,6 @@ import datetime
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 
-
-
-###### test JSON to return to DialogFlow request
-estimated_time = "";
-testJSON = {
-    "fulfillmentText": "This is a text response",
-    "fulfillmentMessages": [
-        {
-            "text": {
-                            "text": ["next bus to here in " + estimated_time]
-            }
-        }
-    ],
-}
-
-###### TESTJSON ENDS
-
 #NOTES: use command "heroku logs --tail" on terminal to see print statements
 #URLs are encoded in urls.py
 
@@ -43,28 +26,29 @@ def df(request):
 
 #processes POST requests from dialog flow
 def processPOST(request):
-    r = requests.get('http://httpbin.org/status/418')
-    print(request.method + " post ")
     body = json.loads(request.body) #translates
-    #print(body)
-    dict = {}
-    bus_stop = ""
+    ret = ""
     if body["queryResult"]["parameters"]["next_bus"] == "next":
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
-        dict = get_estimate(bus_stop)
-    lowest = 1000
-    if dict != None:
-        for key in dict:
-            if (key < lowest):
-                lowest = key
-    if lowest == 1000:
-        ret = returnNoInfo()
-    else:
-        ret = returnJSON(round(lowest), bus_stop, dict[lowest])
-    print("lowest: ", lowest)
+        ret = find_next_bus(bus_stop)
     json_response = json.dumps(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
+
+def find_next_bus(bus_stop):
+    next_bus_DS = create_next_bus_DS(bus_stop)
+    lowest = 1000
+    ret = {}
+    if next_bus_DS != None:
+        for key in next_bus_DS:
+            if (key < lowest):
+                lowest = key
+                if lowest == 1000:
+                    ret = return_no_info_for_stop_JSON()
+                else:
+                    ret = return_next_bus_JSON(round(lowest), bus_stop, next_bus_DS[lowest])
+    return ret
+
 
 #processes GET requests (accessing index heroku URL)
 def processGET(request):
@@ -88,8 +72,26 @@ bus_stop_dict = {
     "silber":"4160730"
 }
 
-data = {}
+bus_stop_dict_inverse = {
+    "4160734":"marsh_plaza",
+    "4160738":"cfa",
+    "4160714":"stuvi",
+    "4114006":"amory",
+    "4149154":"stmary",
+    "4068466":"blandford",
+    "4068470":"hotel",
+    "4110206":"huntingtonm6",
+    "4068482":"albany",
+    "4160718":"huntingtonc2",
+    "4160722":"danielsen",
+    "4160726":"myles",
+    "4160730":"silber",
+    #TODO: figure out what stops these are--also need to add these to non inverse dict
+    "4221172":"temp",
+    "4221926":"temp"
+}
 
+data = {}
 #establish connection to bu bus server data, load json into program for processing
 def read_bus_data():
     global data
@@ -98,7 +100,7 @@ def read_bus_data():
     data = json.loads(r.text)
 
 #takes in bus stop string, returns a dictionary {minutes until next arrival:bus_route}#
-def get_estimate(stop_str):
+def create_next_bus_DS(stop_str):
     read_bus_data()
     ret = {}
     stop_id = bus_stop_dict[stop_str]
@@ -110,7 +112,7 @@ def get_estimate(stop_str):
                 if(stops["stop_id"] == stop_id):
                     time_until = calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
-    print("get estimate for ", stop_str, " returned ", ret)
+    print("getting estimate for ", stop_str, " returned ", ret)
     return ret
 
 #helper function for get_estimate; calculates minutes until arrival
@@ -118,40 +120,72 @@ def calculate_time_diff(bus_time):
     current = datetime.datetime.now()
     current = current - datetime.timedelta(hours = 5) #adjust for heroku time
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
-    print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
+    #print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
 
-
+#not ready - need to figure out how root is found to access static privacypolicy.txt
 def privacypolicy(request):
     path = staticfiles_storage.path('privacypolicy.txt')
-    print(path);
+    #print(path);
     policy = open(path, "r")
     return HttpResponse('<pre>' + policy.read() + path + '</pre>')
 
-def returnJSON(time, stop, type):
+def find_stops_with_data():
+    return create_stops_with_data_DS()
+
+#returns set with names of stops that have data, empty set if no data
+def create_stops_with_data_DS():
+    read_bus_data()
+    seen_stops = set()
+    ret = set()
+    for bus in data["ResultSet"]["Result"]:
+        estimates = bus.get("arrival_estimates")
+        if(estimates != None):
+            for stops in estimates:
+                seen_stops.add(stops["stop_id"])
+    for stops in seen_stops:
+        ret.add(bus_stop_dict_inverse[stops])
+    return ret
+
+def return_next_bus_JSON(time, stop, type):
     ret = {
         "fulfillmentText": "This is a text response",
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["next bus to " + stop + " is a " + type + " bus that is arriving in " + str(time) + " minutes"]
+                    "text": ["The next bus to " + stop + " is a " + type + " bus that is arriving in " + str(time) + " minutes"]
                 }
             }
         ],
     }
     return ret
 
-def returnNoInfo():
-    ret = {
-        "fulfillmentText": "This is a text response",
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": ["Unfortunately I don't have this data...please try another stop!"]
+def return_no_info_for_stop_JSON():
+    ret = {}
+    stops_with_data = find_stops_with_data()
+    if len(stops_with_data) != 0:
+        ret = {
+            "fulfillmentText": "This is a text response",
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                                    "text": ["Unfortunately I don't have data for the next arrival times for ths bus stop at this moment. Try one of these stops: " + stops_with_data]
+                    }
                 }
-            }
-        ],
-    }
+            ],
+        }
+    else:
+        ret = {
+            "fulfillmentText": "This is a text response",
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                        "text": ["Unfortunately I don't have data for the next arrival times for bus stops at this moment. Please try again in a bit!"]
+                    }
+                }
+            ],
+        }
     return ret
 
-print(get_estimate("silber"))
+print(create_stops_with_data_DS())
+print(find_next_bus("amory"))
