@@ -88,7 +88,8 @@ bus_stop_dict_inverse = {
     "4160730":"silber",
     #TODO: figure out what stops these are--also need to add these to non inverse dict
     "4221172":"temp",
-    "4221926":"temp"
+    "4221926":"temp",
+    "4117702":"temp",
 }
 
 data = {}
@@ -125,7 +126,7 @@ def calculate_time_diff(bus_time):
     #print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
     return (bus_time_obj - current).seconds/60
 
-#not ready - need to figure out how root is found to access static privacypolicy.txt
+#TODO: need to figure out how root is found to access static privacypolicy.txt
 def privacypolicy(request):
     path = staticfiles_storage.path('privacypolicy.txt')
     #print(path);
@@ -146,8 +147,8 @@ def create_stops_with_data_DS():
         if(estimates != None):
             for stops in estimates:
                 seen_stops.add(stops["stop_id"])
-    for stops in seen_stops:
-        ret.add(bus_stop_dict_inverse[stops])
+    for stop in seen_stops:
+        ret.add(bus_stop_dict_inverse[stop])
     return ret
 
 def return_next_bus_JSON(time, stop, type):
