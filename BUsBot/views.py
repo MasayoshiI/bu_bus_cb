@@ -187,7 +187,7 @@ def return_no_info_for_stop_JSON():
             "fulfillmentMessages": [
                 {
                     "text": {
-                        "text": ["Unfortunately I don't have arrival time for that stop...try one of these stops instead: " + temp]
+                        "text": ["Unfortunately I don't have arrival time data for that stop...try one of these stops instead: " + temp]
                     }
                 }
             ],
