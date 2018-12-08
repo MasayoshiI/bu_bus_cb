@@ -145,7 +145,7 @@ def privacypolicy(request):
     #searched_locations = finders.searched_locations
     print(path);
     policy = open(path, "r")
-    return HttpResponse('<pre>' + policy.read() + path + '</pre>')
+    return HttpResponse('<pre>' + policy.read() + '</pre>')
 
 def find_stops_with_data():
     return create_stops_with_data_DS()
