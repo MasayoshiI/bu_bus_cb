@@ -147,7 +147,7 @@ def returnNoInfo():
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["Unfortunately I don't have data for for when the next bus is coming there...please try another stop!"]
+                    "text": ["Unfortunately I don't have this data...please try another stop!"]
                 }
             }
         ],
