@@ -40,6 +40,7 @@ def find_next_bus(bus_stop):
     lowest = 1000
     ret = {}
     if next_bus_DS != None:
+        print("next bus exists")
         for key in next_bus_DS:
             if (key < lowest):
                 lowest = key
@@ -47,6 +48,8 @@ def find_next_bus(bus_stop):
                     ret = return_no_info_for_stop_JSON()
                 else:
                     ret = return_next_bus_JSON(round(lowest), bus_stop, next_bus_DS[lowest])
+    else:
+        ret = return_no_info_for_stop_JSON()
     return ret
 
 
@@ -105,7 +108,6 @@ bus_stop_dict_inverse = {
 data = {}
 #establish connection to bu bus server data, load json into program for processing
 def read_bus_data():
-    print("read_bus_data() called")
     global data
     r = requests.get('https://www.bu.edu/bumobile/rpc/bus/livebus.json.php', auth=('user', 'pass'))
     #print(r.status_code, " <-- if 200, successful connection")
