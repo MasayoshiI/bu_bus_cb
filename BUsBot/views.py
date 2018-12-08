@@ -58,7 +58,7 @@ def processPOST(request):
             if (key < lowest):
                 lowest = key
     if lowest == 1000:
-        ret = returnNoInfo
+        ret = returnNoInfo()
     else:
         ret = returnJSON(round(lowest), bus_stop, dict[lowest])
     print("lowest: ", lowest)
