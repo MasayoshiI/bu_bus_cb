@@ -204,5 +204,3 @@ def return_no_info_for_stop_JSON():
             ],
         }
     return ret
-
-print(return_no_info_for_stop_JSON())
