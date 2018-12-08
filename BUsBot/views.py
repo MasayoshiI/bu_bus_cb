@@ -141,13 +141,13 @@ def returnJSON(time, stop, type):
     }
     return ret
 
-def returnNoInfo:
+def returnNoInfo():
     ret = {
         "fulfillmentText": "This is a text response",
         "fulfillmentMessages": [
             {
                 "text": {
-                                "text": ["Unfortunately I don't have data for that :( please try another stop!"]
+                                "text": ["Unfortunately I don't have data for for when the next bus is coming there...please try another stop!"]
                 }
             }
         ],
