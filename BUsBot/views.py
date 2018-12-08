@@ -5,7 +5,7 @@ import requests
 import json
 import datetime
 from django.contrib.staticfiles.storage import staticfiles_storage
-
+from django.contrib.staticfiles import finders
 
 #NOTES: use command "heroku logs --tail" on terminal to see print statements
 #URLs are encoded in urls.py
@@ -141,8 +141,9 @@ def calculate_time_diff(bus_time):
 
 #TODO: need to figure out how root is found to access static privacypolicy.txt
 def privacypolicy(request):
-    path = staticfiles_storage.path('privacypolicy.txt')
-    #print(path);
+    path = finders.find('privacypolicy.txt')
+    #searched_locations = finders.searched_locations
+    print(path);
     policy = open(path, "r")
     return HttpResponse('<pre>' + policy.read() + path + '</pre>')
 
@@ -204,3 +205,5 @@ def return_no_info_for_stop_JSON():
             ],
         }
     return ret
+
+
