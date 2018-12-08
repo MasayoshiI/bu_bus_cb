@@ -94,6 +94,7 @@ bus_stop_dict_inverse = {
 data = {}
 #establish connection to bu bus server data, load json into program for processing
 def read_bus_data():
+    print("read_bus_data() called")
     global data
     r = requests.get('https://www.bu.edu/bumobile/rpc/bus/livebus.json.php', auth=('user', 'pass'))
     #print(r.status_code, " <-- if 200, successful connection")
@@ -101,6 +102,7 @@ def read_bus_data():
 
 #takes in bus stop string, returns a dictionary {minutes until next arrival:bus_route}#
 def create_next_bus_DS(stop_str):
+    print("create_next_bus_DS() called")
     read_bus_data()
     ret = {}
     stop_id = bus_stop_dict[stop_str]
@@ -135,6 +137,7 @@ def find_stops_with_data():
 
 #returns set with names of stops that have data, empty set if no data
 def create_stops_with_data_DS():
+    print("create_stops_with_data_DS() called")
     read_bus_data()
     seen_stops = set()
     ret = set()
