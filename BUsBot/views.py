@@ -39,7 +39,7 @@ def find_next_bus(bus_stop):
     next_bus_DS = create_next_bus_DS(bus_stop)
     lowest = 1000
     ret = {}
-    if next_bus_DS != None && len(next_bus_DS) != 0:
+    if next_bus_DS != None and len(next_bus_DS) != 0:
         print("next bus exists")
         for key in next_bus_DS:
             if (key < lowest):
