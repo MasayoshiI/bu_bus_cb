@@ -181,12 +181,13 @@ def return_no_info_for_stop_JSON():
     ret = {}
     stops_with_data = find_stops_with_data()
     if len(stops_with_data) != 0:
+        temp = ", ".join(stops_with_data)
         ret = {
             "fulfillmentText": "This is a text response",
             "fulfillmentMessages": [
                 {
                     "text": {
-                                    "text": ["Unfortunately I don't have data for the next arrival times for ths bus stop at this moment. Try one of these stops: " + stops_with_data]
+                        "text": ["Unfortunately I don't have arrival time for that stop...try one of these stops instead: " + temp]
                     }
                 }
             ],
@@ -203,3 +204,5 @@ def return_no_info_for_stop_JSON():
             ],
         }
     return ret
+
+print(return_no_info_for_stop_JSON())
