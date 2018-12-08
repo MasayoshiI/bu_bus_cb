@@ -9,7 +9,7 @@ Try it out! Send a message to @BostonUniversityBUsBot saying "when is the next b
 Suggestions? Contact us at: josephl(at)bu.edu
 
 ## Built by:
-Joseph Lai
-Masayoshi Iwasa
-Sarah Rieger
-Benjamin Sui
+Joseph Lai  
+Masayoshi Iwasa  
+Sarah Rieger  
+Benjamin Sui  
