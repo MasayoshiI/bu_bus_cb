@@ -203,6 +203,3 @@ def return_no_info_for_stop_JSON():
             ],
         }
     return ret
-
-print(create_stops_with_data_DS())
-print(find_next_bus("amory"))
