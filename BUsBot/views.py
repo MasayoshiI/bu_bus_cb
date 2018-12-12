@@ -171,7 +171,7 @@ def return_next_bus_JSON(time, stop, type):
         "fulfillmentMessages": [
             {
                 "text": {
-                    "text": ["The next bus to " + stop + " is a " + type + " bus that is arriving in " + str(time) + " minutes"]
+                    "text": ["The next bus to " + stop + " is a " + type + " bus that is arriving in " + str(time) + " minutes!"]
                 }
             }
         ],
