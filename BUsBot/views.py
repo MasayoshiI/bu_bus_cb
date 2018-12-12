@@ -7,58 +7,6 @@ import datetime
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.contrib.staticfiles import finders
 
-#NOTES: use command "heroku logs --tail" on terminal to see print statements
-#URLs are encoded in urls.py
-
-# Create your views here.
-@csrf_exempt #for security clearance, not sure what vulnerabilities it leads to
-#requests to gentle-dawn URL get processed with the method
-def index(request):
-    if(request.method == "GET"):
-        return processGET(request)
-    else:
-        return processPOST(request)
-
-#test function for /df URL
-def df(request):
-    r = requests.get('http://httpbin.org/status/418')
-    return HttpResponse('<pre>' + r.text + '</pre>'  + "df")
-
-#processes POST requests from dialog flow
-def processPOST(request):
-    body = json.loads(request.body) #translates
-    ret = ""
-    if body["queryResult"]["parameters"]["next_bus"] == "next":
-        bus_stop = body["queryResult"]["parameters"]["startingStation1"]
-        ret = find_next_bus(bus_stop)
-    json_response = json.dumps(ret)
-    print(request.method + " done printing")
-    return HttpResponse(json_response, content_type='application/json')
-
-def find_next_bus(bus_stop):
-    next_bus_DS = create_next_bus_DS(bus_stop)
-    lowest = 1000
-    ret = {}
-    if next_bus_DS != None and len(next_bus_DS) != 0:
-        print("next bus exists")
-        for key in next_bus_DS:
-            if (key < lowest):
-                lowest = key
-                if lowest == 1000:
-                    ret = return_no_info_for_stop_JSON()
-                else:
-                    ret = return_next_bus_JSON(round(lowest), bus_stop, next_bus_DS[lowest])
-    else:
-        ret = return_no_info_for_stop_JSON()
-    print(lowest)
-    return ret
-
-
-#processes GET requests (accessing index heroku URL)
-def processGET(request):
-    r = requests.get('http://httpbin.org/status/418')
-    print(request.method + " get")
-    return HttpResponse('<pre>' + r.text + '</pre>' + "get")
 
 bus_stop_dict = {
     "marsh_plaza":"4160734",
@@ -103,8 +51,54 @@ bus_stop_dict_inverse = {
     "4117694":"temp",
     "4149158":"temp",
     "4117698":"temp",
-    "4149162":"temp"
+    "4149162":"temp",
+    "4221178":"temp"
 }
+
+#NOTES: use command "heroku logs --tail" on terminal to see print statements
+#URLs are encoded in urls.py
+
+# Create your views here.
+@csrf_exempt #for security clearance, not sure what vulnerabilities it leads to
+#requests to gentle-dawn URL get processed with the method
+def index(request):
+    if(request.method == "GET"):
+        return processGET(request)
+    else:
+        return processPOST(request)
+
+#test function for /df URL
+def df(request):
+    r = requests.get('http://httpbin.org/status/418')
+    return HttpResponse('<pre>' + r.text + '</pre>'  + "df")
+
+#processes POST requests from dialog flow
+def processPOST(request):
+    body = json.loads(request.body) #translates
+    ret = ""
+    if body["queryResult"]["parameters"]["next_bus"] == "next":
+        bus_stop = body["queryResult"]["parameters"]["startingStation1"]
+        ret = find_next_bus(bus_stop)
+    json_response = json.dumps(ret)
+    print(request.method + " done printing")
+    return HttpResponse(json_response, content_type='application/json')
+
+#processes GET requests (accessing index heroku URL)
+def processGET(request):
+    r = requests.get('http://httpbin.org/status/418')
+    print(request.method + " get")
+    return HttpResponse('<pre>' + r.text + '</pre>' + "get")
+
+
+#TODO: need to figure out how root is found to access static privacypolicy.txt
+def privacypolicy(request):
+    path = finders.find('privacypolicy.txt')
+    #searched_locations = finders.searched_locations
+    print(path);
+    policy = open(path, "r")
+    return HttpResponse(policy.read())
+
+
 
 data = {}
 #establish connection to bu bus server data, load json into program for processing
@@ -113,6 +107,33 @@ def read_bus_data():
     r = requests.get('https://www.bu.edu/bumobile/rpc/bus/livebus.json.php', auth=('user', 'pass'))
     #print(r.status_code, " <-- if 200, successful connection")
     data = json.loads(r.text)
+
+
+
+
+def find_next_bus(bus_stop):
+    next_bus_DS = create_next_bus_DS(bus_stop)
+    lowest = 1000
+    ret = {}
+    if next_bus_DS != None and len(next_bus_DS) != 0:
+        print("next bus exists")
+        for key in next_bus_DS:
+            if (key < lowest):
+                lowest = key
+                if lowest == 1000:
+                    ret = return_no_info_for_stop_JSON()
+                else:
+                    ret = return_next_bus_JSON(round(lowest), bus_stop, next_bus_DS[lowest])
+    else:
+        ret = return_no_info_for_stop_JSON()
+    print(lowest)
+    return ret
+
+
+def find_stops_with_data():
+    return create_stops_with_data_DS()
+
+
 
 #takes in bus stop string, returns a dictionary {minutes until next arrival:bus_route}#
 def create_next_bus_DS(stop_str):
@@ -131,24 +152,7 @@ def create_next_bus_DS(stop_str):
     print("getting estimate for ", stop_str, " returned ", ret)
     return ret
 
-#helper function for get_estimate; calculates minutes until arrival
-def calculate_time_diff(bus_time):
-    current = datetime.datetime.now()
-    current = current - datetime.timedelta(hours = 5) #adjust for heroku time
-    bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
-    #print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
-    return (bus_time_obj - current).seconds/60
 
-#TODO: need to figure out how root is found to access static privacypolicy.txt
-def privacypolicy(request):
-    path = finders.find('privacypolicy.txt')
-    #searched_locations = finders.searched_locations
-    print(path);
-    policy = open(path, "r")
-    return HttpResponse(policy.read())
-
-def find_stops_with_data():
-    return create_stops_with_data_DS()
 
 #returns set with names of stops that have data, empty set if no data
 def create_stops_with_data_DS():
@@ -164,6 +168,16 @@ def create_stops_with_data_DS():
     for stop in seen_stops:
         ret.add(bus_stop_dict_inverse[stop])
     return ret
+
+
+#helper function for get_estimate; calculates minutes until arrival
+def calculate_time_diff(bus_time):
+    current = datetime.datetime.now()
+    current = current - datetime.timedelta(hours = 5) #adjust for heroku time
+    bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
+    #print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
+    return (bus_time_obj - current).seconds/60
+
 
 def return_next_bus_JSON(time, stop, type):
     ret = {
