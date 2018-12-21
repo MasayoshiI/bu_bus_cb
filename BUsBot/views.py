@@ -229,5 +229,6 @@ def return_no_info_for_stop_JSON():
 #
 ###ALERT MODULE##
 #
-#def process_alert(request):
+def alert(request):
+    print("ouch")
 #
