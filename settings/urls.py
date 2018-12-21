@@ -18,5 +18,7 @@ urlpatterns = [
     path("", BUsBot.views.index, name="index"),
     path("df/", BUsBot.views.df, name="df"),
     path("privacypolicy/", BUsBot.views.privacypolicy, name="privacypolicy"),
+    path("alert/", BUsBot.views.alert, name="alert"),
     path("admin/", admin.site.urls),
+    
 ]

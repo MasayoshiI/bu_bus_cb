@@ -75,6 +75,9 @@ def df(request):
 #processes POST requests from dialog flow
 def processPOST(request):
     body = json.loads(request.body) #translates
+    print("printing body")
+    print(body);
+    print("done printing body")
     ret = ""
     if body["queryResult"]["parameters"]["next_bus"] == "next":
         bus_stop = body["queryResult"]["parameters"]["startingStation1"]
@@ -97,8 +100,6 @@ def privacypolicy(request):
     print(path);
     policy = open(path, "r")
     return HttpResponse(policy.read())
-
-
 
 data = {}
 #establish connection to bu bus server data, load json into program for processing
@@ -147,7 +148,7 @@ def create_next_bus_DS(stop_str):
         if(estimates != None):
             for stops in estimates:
                 if(stops["stop_id"] == stop_id):
-                    time_until = calculate_time_diff(stops["arrival_at"])
+                    time_until = helper_calculate_time_diff(stops["arrival_at"])
                     ret[time_until] = bus["route"]
     print("getting estimate for ", stop_str, " returned ", ret)
     return ret
@@ -171,7 +172,7 @@ def create_stops_with_data_DS():
 
 
 #helper function for get_estimate; calculates minutes until arrival
-def calculate_time_diff(bus_time):
+def helper_calculate_time_diff(bus_time):
     current = datetime.datetime.now()
     current = current - datetime.timedelta(hours = 5) #adjust for heroku time
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-05:00')
@@ -221,3 +222,12 @@ def return_no_info_for_stop_JSON():
     return ret
 
 
+###for printing POST requests
+#def print_POST(request):
+#    print ()
+#
+#
+###ALERT MODULE##
+#
+#def process_alert(request):
+#
