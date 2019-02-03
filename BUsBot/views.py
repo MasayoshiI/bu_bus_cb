@@ -79,8 +79,8 @@ def processPOST(request):
     print(body);
     print("done printing body")
     ret = ""
-    if body["queryResult"]["parameters"]["next_bus"] == "next":
-        bus_stop = body["queryResult"]["parameters"]["startingStation1"]
+    if body["queryResult"]["parameters"]["next"] == "next_arrival_time":
+        bus_stop = body["queryResult"]["parameters"]["station"]
         ret = find_next_bus(bus_stop)
     json_response = json.dumps(ret)
     print(request.method + " done printing")
