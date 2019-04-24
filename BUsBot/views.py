@@ -178,7 +178,7 @@ def helper_calculate_time_diff(bus_time):
     current = current - datetime.timedelta(hours = 5) #adjust for heroku time
     bus_time_obj = datetime.datetime.strptime(bus_time, '%Y-%m-%dT%H:%M:%S-04:00')
     #print(current, " ", bus_time_obj, " ", (bus_time_obj - current).seconds/60)
-    return (bus_time_obj - current).seconds/60
+    return (bus_time_obj - current =).seconds/60 - 60
 
 
 def return_next_bus_JSON(time, stop, type):
