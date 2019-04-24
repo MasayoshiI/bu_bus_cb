@@ -1,4 +1,4 @@
-from django.shortcuts import render
+rom django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import requests
@@ -83,6 +83,7 @@ def processPOST(request):
         bus_stop = body["queryResult"]["parameters"]["station"]
         ret = find_next_bus(bus_stop)
     json_response = json.dumps(ret)
+    print(ret)
     print(request.method + " done printing")
     return HttpResponse(json_response, content_type='application/json')
 

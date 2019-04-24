@@ -17,8 +17,11 @@ import BUsBot.views
 urlpatterns = [
     path("", BUsBot.views.index, name="index"),
     path("df/", BUsBot.views.df, name="df"),
+<<<<<<< HEAD:settings/urls.py
     path("privacypolicy/", BUsBot.views.privacypolicy, name="privacypolicy"),
     path("alert/", BUsBot.views.alert, name="alert"),
+=======
+>>>>>>> 8e06981d27f025df424efc6cf86ef829aa89973e:settings/urls.py
     path("admin/", admin.site.urls),
     
 ]
