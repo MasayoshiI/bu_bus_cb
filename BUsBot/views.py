@@ -52,7 +52,8 @@ bus_stop_dict_inverse = {
     "4149158":"temp",
     "4117698":"temp",
     "4149162":"temp",
-    "4221178":"temp"
+    "4221178":"temp",
+    "4221174":"temp"
 }
 
 #NOTES: use command "heroku logs --tail" on terminal to see print statements
