@@ -169,7 +169,7 @@ def create_stops_with_data_DS():
             for stops in estimates:
                 seen_stops.add(stops["stop_id"])
     for stop in seen_stops:
-        ret.add(bus_stop_dict_inverse[stop])
+        ret.add(bus_stop_dict_inverse.get(stop, "temp"))
     return ret
 
 
